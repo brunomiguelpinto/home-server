@@ -7,6 +7,20 @@ SCRIPT_DIR="$REPO_DIR/scripts"
 UPDATE_SCRIPT="$SCRIPT_DIR/update.sh"
 
 # -----------------------------
+# Function: Install Docker
+# -----------------------------
+install_docker() {
+    echo "===== Checking Docker installation ====="
+    if command -v docker >/dev/null 2>&1; then
+        echo "Docker is already installed."
+    else
+        echo "Installing Docker..."
+        curl -fsSL https://get.docker.com | sudo sh
+        sudo usermod -aG docker $USER
+    fi
+}
+
+# -----------------------------
 # Function: Install Vim if needed
 # -----------------------------
 check_vim() {
@@ -64,6 +78,7 @@ system_update
 create_folders
 setup_cron
 check_vim
+install_docker
 
 echo "===== DONE! ====="
 echo "Reboot recommended: sudo reboot"
