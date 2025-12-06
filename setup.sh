@@ -7,6 +7,21 @@ SCRIPT_DIR="$REPO_DIR/scripts"
 UPDATE_SCRIPT="$SCRIPT_DIR/update.sh"
 
 # -----------------------------
+# Clone or update repository
+# -----------------------------
+clone_repo() {
+    echo "===== Checking repository ====="
+    if [ ! -d "$REPO_DIR/.git" ]; then
+        echo "Cloning repository to $REPO_DIR ..."
+        git clone https://github.com/brunomiguelpinto/home-server.git "$REPO_DIR"
+    else
+        echo "Repository exists — pulling updates..."
+        cd "$REPO_DIR"
+        git pull
+    fi
+}
+
+# -----------------------------
 # Function: Install Docker
 # -----------------------------
 install_docker() {
@@ -75,6 +90,7 @@ clear
 echo "===== Starting setup.sh ====="
 
 system_update
+clone_repo
 create_folders
 setup_cron
 check_vim
